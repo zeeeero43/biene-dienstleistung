@@ -204,15 +204,22 @@ else
 fi
 
 # =============================================================================
-# STEP 6: RELOAD NGINX
+# STEP 6: RESTART NGINX
 # =============================================================================
-log_info "[6/6] Reloading Nginx..."
+log_info "[6/6] Starting/Reloading Nginx..."
 
 # Test Nginx configuration first
 if sudo nginx -t 2>&1 | tee -a "$LOG_FILE"; then
-    # Reload Nginx (zero downtime)
-    sudo systemctl reload nginx
-    log_success "Nginx reloaded successfully"
+    # Check if Nginx is running
+    if systemctl is-active --quiet nginx; then
+        # Reload Nginx (zero downtime)
+        sudo systemctl reload nginx
+        log_success "Nginx reloaded successfully"
+    else
+        # Start Nginx if not running
+        sudo systemctl start nginx
+        log_success "Nginx started successfully"
+    fi
 else
     log_error "Nginx configuration test failed!"
     log_warning "Please check Nginx configuration manually"

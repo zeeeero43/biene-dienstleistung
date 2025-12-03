@@ -6,6 +6,14 @@ import { Button } from './Button';
 import { ArrowRight, ChevronDown, MapPin } from 'lucide-react';
 import { TAGLINE } from '../constants';
 
+const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+  e.preventDefault();
+  const element = document.getElementById(sectionId);
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }
+};
+
 // Simple Particle Component
 const Particle = ({ delay, x, y, size }: { delay: number, x: string, y: string, size: number }) => (
   <motion.div
@@ -90,9 +98,8 @@ export const Hero: React.FC = () => {
               </span>
             </h1>
 
-            <p className="text-lg sm:text-xl md:text-2xl text-gray-700 font-light mb-4 italic relative inline-block">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-700 font-light mb-4 italic">
               "{TAGLINE}"
-              <span className="absolute -right-6 -top-2 text-brand-yellow text-4xl opacity-50">"</span>
             </p>
 
             {/* Service Area Badge */}
@@ -107,12 +114,12 @@ export const Hero: React.FC = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <a href="#contact">
+              <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')}>
                 <Button className="w-full sm:w-auto shadow-xl shadow-brand-yellow/20">
                   Kontakt aufnehmen <ArrowRight size={18} />
                 </Button>
               </a>
-              <a href="#services">
+              <a href="#services" onClick={(e) => scrollToSection(e, 'services')}>
                 <Button variant="outline" className="w-full sm:w-auto">
                   Unsere Leistungen
                 </Button>
@@ -123,8 +130,9 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* Scroll Indicator */}
-      <motion.a 
+      <motion.a
         href="#services"
+        onClick={(e) => scrollToSection(e, 'services')}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y: [0, 10, 0] }}
         transition={{ delay: 1, duration: 2, repeat: Infinity }}

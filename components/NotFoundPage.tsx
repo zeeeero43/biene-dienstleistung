@@ -1,11 +1,20 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Home, ArrowLeft, Phone } from 'lucide-react';
 import { Button } from './Button';
 import { BeeLogo } from './BeeLogo';
 
 export const NotFoundPage: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleContactClick = () => {
+    navigate('/');
+    setTimeout(() => {
+      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-honeycomb relative overflow-hidden">
       {/* Background Glow */}
@@ -68,12 +77,12 @@ export const NotFoundPage: React.FC = () => {
                 Zur Startseite
               </Button>
             </Link>
-            <Link to="/#contact">
+            <button onClick={handleContactClick}>
               <Button variant="outline" className="w-full sm:w-auto">
                 <Phone size={18} />
                 Kontakt aufnehmen
               </Button>
-            </Link>
+            </button>
           </motion.div>
 
           {/* Back Link */}

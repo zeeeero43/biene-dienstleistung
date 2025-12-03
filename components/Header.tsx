@@ -81,15 +81,15 @@ export const Header: React.FC = () => {
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center gap-3 group">
             <motion.div
-              whileHover={{ rotate: 10, scale: 1.1 }}
+              whileHover={{ scale: 1.05 }}
               transition={{ type: 'spring', stiffness: 300 }}
             >
-              <BeeLogo className="w-12 h-12 md:w-14 md:h-14" />
+              <img
+                src="/logo.png"
+                alt="Biene Dienstleistung Logo"
+                className="h-20 md:h-24 w-auto"
+              />
             </motion.div>
-            <div className="flex flex-col">
-              <span className="font-extrabold text-lg md:text-xl leading-tight tracking-tight">BIENE</span>
-              <span className="text-[10px] font-bold text-gray-500 tracking-[0.2em] uppercase">Dienstleistung</span>
-            </div>
           </Link>
           
           {/* Location Badge */}
@@ -149,9 +149,11 @@ export const Header: React.FC = () => {
         </nav>
 
         {/* Mobile Toggle */}
-        <button 
+        <button
           className="md:hidden text-brand-black p-2 z-50 relative"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? "Menü schließen" : "Menü öffnen"}
+          aria-expanded={mobileMenuOpen}
         >
           {mobileMenuOpen ? <X size={32} /> : <Menu size={32} />}
         </button>
@@ -175,9 +177,12 @@ export const Header: React.FC = () => {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-white shadow-2xl z-50 md:hidden flex flex-col pt-24 px-8"
             >
-              <div className="absolute top-6 left-6 flex items-center gap-3">
-                <BeeLogo className="w-12 h-12" />
-                <span className="font-bold text-xl">BIENE</span>
+              <div className="absolute top-6 left-6">
+                <img
+                  src="/logo.png"
+                  alt="Biene Dienstleistung Logo"
+                  className="h-16 w-auto"
+                />
               </div>
 
               <div className="flex flex-col gap-6">

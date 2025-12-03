@@ -114,11 +114,11 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-10 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 gap-4">
+        <div className="border-t border-gray-800 pt-10 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400 gap-4">
           <p className="flex items-center gap-2 font-medium">
             🐝 &copy; {new Date().getFullYear()} {COMPANY_NAME}. Alle Rechte vorbehalten.
           </p>
-          <p className="text-gray-500 text-center">
+          <p className="text-gray-400 text-center">
             Webseite entwickelt von{' '}
             <a
               href="https://artofmedia-marketing.de/"
