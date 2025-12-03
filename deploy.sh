@@ -24,7 +24,7 @@ DOMAIN="biene-dienstleistung.de"
 WWW_DOMAIN="www.${DOMAIN}"
 PROJECT_NAME="biene-dienstleistung"
 PROJECT_PATH="/var/www/${PROJECT_NAME}"
-REPO_URL="git@github.com:username/biene-dienstleistung.git"  # UPDATE THIS!
+REPO_URL="https://github.com/zeeeero43/biene-dienstleistung.git"
 EMAIL="admin@${DOMAIN}"  # For SSL certificates
 DEPLOY_USER="deploy"  # Non-root user for deployments
 NODE_VERSION="20"  # Node.js LTS version
@@ -362,38 +362,22 @@ print_success "Certbot auto-renewal is configured via systemd timer"
 systemctl status certbot.timer --no-pager
 
 # =============================================================================
-# STEP 8/9: SETUP GITHUB SSH KEY AND CLONE REPOSITORY
+# STEP 8/9: CLONE REPOSITORY FROM GITHUB
 # =============================================================================
-print_step "[8/9] Setting up GitHub SSH key..."
+print_step "[8/9] Cloning repository from GitHub..."
 
-# Generate SSH key for deploy user
-su - $DEPLOY_USER -c "
-    if [ ! -f ~/.ssh/id_ed25519 ]; then
-        ssh-keyscan github.com >> ~/.ssh/known_hosts
-        ssh-keygen -t ed25519 -C '$EMAIL' -f ~/.ssh/id_ed25519 -N ''
-    fi
-"
-
-print_success "SSH key generated for $DEPLOY_USER"
-echo -e "\n${YELLOW}==================================================================${NC}"
-echo -e "${YELLOW}IMPORTANT: Add this SSH public key as a Deploy Key in GitHub:${NC}"
-echo -e "${YELLOW}==================================================================${NC}"
-cat /home/$DEPLOY_USER/.ssh/id_ed25519.pub
-echo -e "${YELLOW}==================================================================${NC}"
-echo -e "${YELLOW}GitHub Repository Settings > Deploy keys > Add deploy key${NC}"
-echo -e "${YELLOW}==================================================================${NC}\n"
-
-read -p "Press Enter after adding the deploy key to GitHub..."
-
-# Clone repository as deploy user
+# Clone repository as deploy user (public repo - no SSH key needed)
 print_warning "Cloning repository..."
 su - $DEPLOY_USER -c "
     if [ ! -d $PROJECT_PATH/.git ]; then
         git clone $REPO_URL $PROJECT_PATH
     else
-        echo 'Repository already cloned'
+        echo 'Repository already cloned, pulling latest changes...'
+        cd $PROJECT_PATH && git pull
     fi
 "
+
+print_success "Repository cloned successfully"
 
 # Install dependencies and build
 print_warning "Installing dependencies and building..."
@@ -532,9 +516,8 @@ echo -e "5. Monitor logs: ${GREEN}/var/log/nginx/biene-dienstleistung.access.log
 echo -e "\n${YELLOW}==================================================================${NC}"
 echo -e "${YELLOW}                  IMPORTANT REMINDERS:                            ${NC}"
 echo -e "${YELLOW}==================================================================${NC}"
-echo -e "• Update the REPO_URL in this script before first run"
-echo -e "• Add your SSH key to /home/$DEPLOY_USER/.ssh/authorized_keys"
-echo -e "• GitHub Deploy Key was displayed earlier - make sure you added it"
+echo -e "• Add your SSH key to /home/$DEPLOY_USER/.ssh/authorized_keys for SSH access"
+echo -e "• Repository: ${GREEN}$REPO_URL${NC}"
 echo -e "• Backup strategy: Consider setting up automated backups"
 echo -e "• Monitoring: Consider setting up uptime monitoring (e.g., UptimeRobot)"
 
