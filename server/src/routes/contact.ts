@@ -103,7 +103,7 @@ router.post('/contact', contactRateLimiter, async (req: Request, res: Response) 
  * GET /api/contact/health
  * Health-Check für SMTP-Verbindung
  */
-router.get('/contact/health', async (req: Request, res: Response) => {
+router.get('/contact/health', async (_req: Request, res: Response) => {
   try {
     const emailService = new EmailService({
       host: process.env.SMTP_HOST || 'smtp.hostinger.com',

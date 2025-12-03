@@ -52,7 +52,7 @@ app.use('/api', globalRateLimiter);
 
 // Request-Logging (optional für Development)
 if (process.env.NODE_ENV === 'development') {
-  app.use((req: Request, res: Response, next: NextFunction) => {
+  app.use((req: Request, _res: Response, next: NextFunction) => {
     console.log(`${req.method} ${req.path} - ${req.ip}`);
     next();
   });
@@ -63,7 +63,7 @@ if (process.env.NODE_ENV === 'development') {
 // ========================================
 
 // Health Check
-app.get('/api/health', (req: Request, res: Response) => {
+app.get('/api/health', (_req: Request, res: Response) => {
   res.status(200).json({
     success: true,
     message: 'Backend läuft',
@@ -75,7 +75,7 @@ app.get('/api/health', (req: Request, res: Response) => {
 app.use('/api', contactRouter);
 
 // 404-Handler
-app.use((req: Request, res: Response) => {
+app.use((_req: Request, res: Response) => {
   res.status(404).json({
     success: false,
     error: 'Route nicht gefunden',
@@ -83,7 +83,7 @@ app.use((req: Request, res: Response) => {
 });
 
 // Globaler Error-Handler
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
   console.error('Unerwarteter Fehler:', err);
 
   // CORS-Fehler
@@ -95,7 +95,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   }
 
   // Generischer Fehler
-  res.status(500).json({
+  return res.status(500).json({
     success: false,
     error: 'Ein interner Serverfehler ist aufgetreten',
   });
