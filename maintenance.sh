@@ -159,9 +159,10 @@ log_info "Aktualisiere Paketlisten..."
 apt update -qq 2>&1 | tee -a "$LOG_FILE"
 
 # Verfügbare Updates zählen
-UPDATES_AVAIL=$(apt list --upgradable 2>/dev/null | grep -c upgradable || echo "0")
+UPDATES_AVAIL=$(apt list --upgradable 2>/dev/null | grep -c "upgradable" | tr -d '[:space:]')
+UPDATES_AVAIL=${UPDATES_AVAIL:-0}
 
-if [ "$UPDATES_AVAIL" -gt 0 ]; then
+if [ "$UPDATES_AVAIL" -gt 0 ] 2>/dev/null; then
     log_warning "$UPDATES_AVAIL Pakete können aktualisiert werden"
 
     log_info "Installiere Updates..."
@@ -306,19 +307,23 @@ fi
 log_section "7. SICHERHEITS-CHECK"
 
 # Fail2ban Status
-if systemctl is-active --quiet fail2ban; then
-    log_success "Fail2ban ist aktiv"
+if command -v fail2ban-client &> /dev/null; then
+    if systemctl is-active --quiet fail2ban; then
+        log_success "Fail2ban ist aktiv"
 
-    # Gebannte IPs
-    BANNED=$(fail2ban-client status sshd 2>/dev/null | grep "Currently banned" | awk '{print $NF}')
-    log_info "Aktuell gebannte IPs (SSH): $BANNED"
+        # Gebannte IPs
+        BANNED=$(fail2ban-client status sshd 2>/dev/null | grep "Currently banned" | awk '{print $NF}')
+        log_info "Aktuell gebannte IPs (SSH): ${BANNED:-0}"
 
-    # Fail2ban Statistiken
-    TOTAL_BANNED=$(fail2ban-client status sshd 2>/dev/null | grep "Total banned" | awk '{print $NF}')
-    log_info "Insgesamt gebannt (SSH): $TOTAL_BANNED"
+        # Fail2ban Statistiken
+        TOTAL_BANNED=$(fail2ban-client status sshd 2>/dev/null | grep "Total banned" | awk '{print $NF}')
+        log_info "Insgesamt gebannt (SSH): ${TOTAL_BANNED:-0}"
+    else
+        log_warning "Fail2ban ist installiert aber nicht aktiv"
+        systemctl start fail2ban 2>/dev/null || log_warning "Konnte Fail2ban nicht starten"
+    fi
 else
-    log_error "Fail2ban ist nicht aktiv!"
-    systemctl start fail2ban
+    log_warning "Fail2ban ist nicht installiert - Installation empfohlen: sudo apt install fail2ban"
 fi
 
 # UFW Firewall Status
@@ -332,10 +337,11 @@ if command -v ufw &> /dev/null; then
 fi
 
 # SSH Brute-Force Versuche (letzte 24h)
-SSH_FAILURES=$(journalctl -u sshd --since "24 hours ago" 2>/dev/null | grep -c "Failed password" || echo "0")
+SSH_FAILURES=$(journalctl -u sshd --since "24 hours ago" 2>/dev/null | grep -c "Failed password" | tr -d '[:space:]' || echo "0")
+SSH_FAILURES=${SSH_FAILURES:-0}
 log_info "SSH Fehlversuche (24h): $SSH_FAILURES"
 
-if [ "$SSH_FAILURES" -gt 100 ]; then
+if [ "$SSH_FAILURES" -gt 100 ] 2>/dev/null; then
     log_warning "Hohe Anzahl an SSH-Angriffen ($SSH_FAILURES)"
 fi
 

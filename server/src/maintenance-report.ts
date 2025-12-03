@@ -9,7 +9,12 @@
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import { readFileSync, existsSync } from 'fs';
-import { resolve } from 'path';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+// ES Module __dirname Ersatz
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // .env laden
 dotenv.config({ path: resolve(__dirname, '../.env') });
