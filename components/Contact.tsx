@@ -193,7 +193,7 @@ export const Contact: React.FC = () => {
                 rel="noreferrer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center gap-3 bg-[#128C7E] hover:bg-[#075E54] text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg hover:shadow-[#128C7E]/30 w-full sm:w-auto justify-center text-lg"
+                className="inline-flex items-center gap-3 bg-[#25D366] hover:bg-[#20bd5a] text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg hover:shadow-[#25D366]/30 w-full sm:w-auto justify-center text-lg"
               >
                 <WhatsAppIcon size={24} />
                 WhatsApp Nachricht

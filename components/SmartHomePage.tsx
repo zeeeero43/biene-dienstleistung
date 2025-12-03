@@ -26,7 +26,7 @@ export const SmartHomePage: React.FC = () => {
   ];
 
   return (
-    <div className="pt-28">
+    <div className="pt-32">
       {/* Page Hero */}
       <section className="relative bg-brand-dark text-white py-24 overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center"></div>

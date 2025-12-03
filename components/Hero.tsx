@@ -46,7 +46,7 @@ export const Hero: React.FC = () => {
         ))}
       </div>
 
-      <div className="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center relative z-10 pt-20 md:-translate-x-8">
+      <div className="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center relative z-10 pt-32 md:pt-20 md:-translate-x-8">
         
         {/* Left: Animated Logo */}
         <motion.div 
