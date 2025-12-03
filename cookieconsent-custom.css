@@ -1,0 +1,173 @@
+/* Biene Dienstleistung - Custom Cookie Consent Styles */
+
+:root {
+  --cc-bg: #1a1a1a;
+  --cc-primary-color: #FFD700;
+  --cc-secondary-color: #ffffff;
+  --cc-text: #e0e0e0;
+  --cc-btn-primary-bg: #FFD700;
+  --cc-btn-primary-text: #000000;
+  --cc-btn-primary-hover-bg: #e6c200;
+  --cc-btn-secondary-bg: #333333;
+  --cc-btn-secondary-text: #ffffff;
+  --cc-btn-secondary-hover-bg: #444444;
+  --cc-separator-border-color: #333333;
+  --cc-cookie-category-block-bg: #252525;
+  --cc-cookie-category-block-border: #333333;
+  --cc-toggle-readonly-bg: #4a4a4a;
+  --cc-toggle-on-bg: #FFD700;
+  --cc-toggle-off-bg: #4a4a4a;
+  --cc-overlay-bg: rgba(0, 0, 0, 0.7);
+  --cc-link-color: #FFD700;
+}
+
+/* Consent Modal */
+.cm {
+  border-radius: 16px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid #333 !important;
+}
+
+.cm__title {
+  font-weight: 800 !important;
+  color: #FFD700 !important;
+}
+
+.cm__desc {
+  color: #e0e0e0 !important;
+  line-height: 1.6 !important;
+}
+
+/* Buttons */
+.cm__btn {
+  border-radius: 9999px !important;
+  font-weight: 700 !important;
+  padding: 12px 24px !important;
+  transition: all 0.2s ease !important;
+}
+
+.cm__btn--primary {
+  background: #FFD700 !important;
+  color: #000000 !important;
+}
+
+.cm__btn--primary:hover {
+  background: #e6c200 !important;
+  transform: translateY(-1px) !important;
+}
+
+.cm__btn--secondary {
+  background: #333333 !important;
+  color: #ffffff !important;
+  border: 1px solid #444 !important;
+}
+
+.cm__btn--secondary:hover {
+  background: #444444 !important;
+}
+
+/* Links */
+.cc-link {
+  color: #FFD700 !important;
+  text-decoration: underline !important;
+}
+
+.cc-link:hover {
+  color: #e6c200 !important;
+}
+
+/* Footer */
+.cm__footer {
+  border-top: 1px solid #333 !important;
+  padding-top: 12px !important;
+  margin-top: 16px !important;
+}
+
+.cm__footer a {
+  color: #888 !important;
+  font-size: 12px !important;
+  text-decoration: none !important;
+}
+
+.cm__footer a:hover {
+  color: #FFD700 !important;
+}
+
+/* Preferences Modal */
+.pm {
+  border-radius: 16px !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+}
+
+.pm__header {
+  border-bottom: 1px solid #333 !important;
+}
+
+.pm__title {
+  font-weight: 800 !important;
+  color: #FFD700 !important;
+}
+
+.pm__section {
+  border-bottom: 1px solid #333 !important;
+}
+
+.pm__section-title {
+  font-weight: 700 !important;
+  color: #ffffff !important;
+}
+
+.pm__section-desc {
+  color: #b0b0b0 !important;
+}
+
+.pm__badge {
+  background: #FFD700 !important;
+  color: #000000 !important;
+  font-weight: 600 !important;
+  border-radius: 9999px !important;
+  padding: 2px 8px !important;
+  font-size: 11px !important;
+}
+
+/* Toggle Switch */
+.pm__toggle {
+  background: #4a4a4a !important;
+}
+
+.pm__toggle.toggle-on {
+  background: #FFD700 !important;
+}
+
+.pm__toggle .toggle__icon {
+  background: #ffffff !important;
+}
+
+/* Close Button */
+.pm__close-btn {
+  color: #888 !important;
+}
+
+.pm__close-btn:hover {
+  color: #FFD700 !important;
+}
+
+/* Footer Buttons */
+.pm__footer {
+  border-top: 1px solid #333 !important;
+}
+
+.pm__btn {
+  border-radius: 9999px !important;
+  font-weight: 700 !important;
+}
+
+.pm__btn--primary {
+  background: #FFD700 !important;
+  color: #000000 !important;
+}
+
+.pm__btn--secondary {
+  background: #333333 !important;
+  color: #ffffff !important;
+}

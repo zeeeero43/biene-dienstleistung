@@ -1,0 +1,11 @@
+# robots.txt für Biene Dienstleistung - Elektriker Meisterbetrieb Moers
+# Alle Suchmaschinen-Crawler sind willkommen
+
+User-agent: *
+Allow: /
+
+# Sitemap Location
+Sitemap: https://www.biene-dienstleistung.de/sitemap.xml
+
+# Optimiert für lokale SEO und Google-Indexierung
+# Alle wichtigen Seiten werden für Crawler freigegeben
