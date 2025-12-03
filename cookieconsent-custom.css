@@ -46,24 +46,38 @@
   transition: all 0.2s ease !important;
 }
 
-.cm__btn--primary {
+.cm__btn--primary,
+.cm__btn[data-role="all"] {
   background: #FFD700 !important;
   color: #000000 !important;
 }
 
-.cm__btn--primary:hover {
+.cm__btn--primary span,
+.cm__btn[data-role="all"] span {
+  color: #000000 !important;
+}
+
+.cm__btn--primary:hover,
+.cm__btn[data-role="all"]:hover {
   background: #e6c200 !important;
   transform: translateY(-1px) !important;
 }
 
-.cm__btn--secondary {
-  background: #333333 !important;
+.cm__btn--secondary,
+.cm__btn[data-role="necessary"] {
+  background: #222222 !important;
   color: #ffffff !important;
-  border: 1px solid #444 !important;
+  border: 1px solid #555 !important;
 }
 
-.cm__btn--secondary:hover {
-  background: #444444 !important;
+.cm__btn--secondary span,
+.cm__btn[data-role="necessary"] span {
+  color: #ffffff !important;
+}
+
+.cm__btn--secondary:hover,
+.cm__btn[data-role="necessary"]:hover {
+  background: #333333 !important;
 }
 
 /* Links */

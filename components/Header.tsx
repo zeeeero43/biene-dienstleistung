@@ -88,6 +88,8 @@ export const Header: React.FC = () => {
                 src="/logo.png"
                 alt="Biene Dienstleistung Logo"
                 className="h-20 md:h-24 w-auto"
+                width={157}
+                height={96}
               />
             </motion.div>
           </Link>
@@ -182,6 +184,8 @@ export const Header: React.FC = () => {
                   src="/logo.png"
                   alt="Biene Dienstleistung Logo"
                   className="h-16 w-auto"
+                  width={104}
+                  height={64}
                 />
               </div>
 

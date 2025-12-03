@@ -29,7 +29,7 @@ export const KassensystemePage: React.FC = () => {
     <div className="pt-28">
       {/* Page Hero */}
       <section className="relative bg-brand-dark text-white py-24 overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 z-0 opacity-30 bg-[url('/images/hero/Kassensysteme.webp')] bg-cover bg-center"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent z-0"></div>
 
         <div className="container mx-auto px-4 relative z-10">

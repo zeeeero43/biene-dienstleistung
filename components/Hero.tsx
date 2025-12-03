@@ -113,7 +113,7 @@ export const Hero: React.FC = () => {
               für professionelle Elektroinstallationen
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <div className="flex flex-col sm:flex-row gap-5 justify-center md:justify-start">
               <a href="#contact" onClick={(e) => scrollToSection(e, 'contact')}>
                 <Button className="w-full sm:w-auto shadow-xl shadow-brand-yellow/20">
                   Kontakt aufnehmen <ArrowRight size={18} />

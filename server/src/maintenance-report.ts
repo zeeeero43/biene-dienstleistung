@@ -150,7 +150,7 @@ function generateHtmlEmail(data: ReportData): string {
     <!-- Header -->
     <div style="background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%); padding: 35px 30px; text-align: center;">
       <h1 style="color: #FFD700; margin: 0; font-size: 26px; font-weight: bold;">
-        🐝 Monatlicher Wartungsbericht
+        🔧 Monatlicher Wartungsbericht
       </h1>
       <p style="color: #cccccc; margin: 12px 0 0 0; font-size: 15px;">
         Ihre Webseite: <strong style="color: #ffffff;">${data.domain}</strong>
@@ -199,14 +199,14 @@ function generateHtmlEmail(data: ReportData): string {
     <!-- Footer -->
     <div style="background-color: #1a1a1a; padding: 30px; text-align: center;">
       <p style="color: #FFD700; margin: 0; font-weight: bold; font-size: 16px;">
-        🐝 Biene Dienstleistung
+        art.of.media
       </p>
       <p style="color: #999999; margin: 15px 0 0 0; font-size: 13px;">
         Monatliche Webseiten-Wartung
       </p>
       <p style="color: #666666; margin: 20px 0 0 0; font-size: 12px; line-height: 1.5;">
         Bei Fragen stehen wir Ihnen gerne zur Verfügung.<br>
-        📧 info@biene-dienstleistung.de
+        📧 info@artofmedia-marketing.de
       </p>
     </div>
 
@@ -276,7 +276,7 @@ async function sendReport(reportPath: string, recipientEmail?: string): Promise<
       to: recipient,
       subject: subject,
       html: htmlContent,
-      text: `Monatlicher Wartungsbericht für ${reportData.domain}\n\nGuten Tag,\n\nwir haben die monatliche Wartung Ihrer Webseite durchgeführt.\n\nStatus: ${reportData.errors > 0 ? 'Handlungsbedarf' : reportData.warnings > 0 ? 'Kleinere Hinweise' : 'Alles in Ordnung'}\n\nDurchgeführt am: ${reportData.timestamp}\n\nBitte öffnen Sie diese E-Mail in einem HTML-fähigen E-Mail-Programm für den vollständigen Bericht.\n\nMit freundlichen Grüßen\nBiene Dienstleistung`,
+      text: `Monatlicher Wartungsbericht für ${reportData.domain}\n\nGuten Tag,\n\nwir haben die monatliche Wartung Ihrer Webseite durchgeführt.\n\nStatus: ${reportData.errors > 0 ? 'Handlungsbedarf' : reportData.warnings > 0 ? 'Kleinere Hinweise' : 'Alles in Ordnung'}\n\nDurchgeführt am: ${reportData.timestamp}\n\nBitte öffnen Sie diese E-Mail in einem HTML-fähigen E-Mail-Programm für den vollständigen Bericht.\n\nMit freundlichen Grüßen\nart.of.media\ninfo@artofmedia-marketing.de`,
     });
 
     console.log('✅ E-Mail erfolgreich gesendet!');

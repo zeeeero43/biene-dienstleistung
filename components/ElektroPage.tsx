@@ -29,7 +29,7 @@ export const ElektroPage: React.FC = () => {
     <div className="pt-28">
       {/* Page Hero */}
       <section className="relative bg-brand-dark text-white py-24 overflow-hidden">
-        <div className="absolute inset-0 z-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=2069&auto=format&fit=crop')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 z-0 opacity-30 bg-[url('/images/hero/Elektroinstallationen.webp')] bg-cover bg-center"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent z-0"></div>
         
         <div className="container mx-auto px-4 relative z-10">
