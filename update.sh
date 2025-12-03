@@ -75,7 +75,7 @@ cd "$PROJECT_PATH"
 # =============================================================================
 # STEP 1: BACKUP CURRENT BUILD
 # =============================================================================
-log_info "[1/6] Creating backup of current build..."
+log_info "[1/8] Creating backup of current build..."
 
 if [ -d "$PROJECT_PATH/dist" ]; then
     tar -czf "$BACKUP_DIR/dist-backup-$TIMESTAMP.tar.gz" -C "$PROJECT_PATH" dist
@@ -93,7 +93,7 @@ fi
 # =============================================================================
 # STEP 2: CHECK GIT STATUS
 # =============================================================================
-log_info "[2/6] Checking Git status..."
+log_info "[2/8] Checking Git status..."
 
 # Fetch latest changes
 git fetch origin 2>&1 | tee -a "$LOG_FILE"
@@ -119,7 +119,7 @@ fi
 # =============================================================================
 # STEP 3: PULL LATEST CHANGES
 # =============================================================================
-log_info "[3/6] Pulling latest changes from GitHub..."
+log_info "[3/8] Pulling latest changes from GitHub..."
 
 BEFORE_COMMIT=$(git rev-parse HEAD)
 git pull origin "$CURRENT_BRANCH" 2>&1 | tee -a "$LOG_FILE"
@@ -136,32 +136,47 @@ else
 fi
 
 # =============================================================================
-# STEP 4: INSTALL DEPENDENCIES
+# STEP 4: INSTALL DEPENDENCIES (FRONTEND + BACKEND)
 # =============================================================================
-log_info "[4/6] Checking dependencies..."
+log_info "[4/8] Checking dependencies..."
 
-# Check if package.json or package-lock.json changed
+# Frontend dependencies
 if [ "$BEFORE_COMMIT" != "$AFTER_COMMIT" ]; then
-    if git diff "$BEFORE_COMMIT" "$AFTER_COMMIT" --name-only | grep -qE "package(-lock)?\.json"; then
-        log_warning "Dependencies changed, running npm install..."
+    if git diff "$BEFORE_COMMIT" "$AFTER_COMMIT" --name-only | grep -qE "^package(-lock)?\.json"; then
+        log_warning "Frontend dependencies changed, running npm install..."
         npm install 2>&1 | tee -a "$LOG_FILE"
-        log_success "Dependencies updated"
+        log_success "Frontend dependencies updated"
     else
-        log_info "No dependency changes detected"
+        log_info "No frontend dependency changes detected"
     fi
 else
-    log_info "Skipping dependency check (no new commits)"
+    log_info "Skipping frontend dependency check (no new commits)"
+fi
+
+# Backend dependencies
+if [ -d "$PROJECT_PATH/server" ]; then
+    if [ "$BEFORE_COMMIT" != "$AFTER_COMMIT" ]; then
+        if git diff "$BEFORE_COMMIT" "$AFTER_COMMIT" --name-only | grep -qE "^server/package(-lock)?\.json"; then
+            log_warning "Backend dependencies changed, running npm install..."
+            cd "$PROJECT_PATH/server"
+            npm install 2>&1 | tee -a "$LOG_FILE"
+            cd "$PROJECT_PATH"
+            log_success "Backend dependencies updated"
+        else
+            log_info "No backend dependency changes detected"
+        fi
+    fi
 fi
 
 # =============================================================================
-# STEP 5: BUILD APPLICATION
+# STEP 5: BUILD FRONTEND
 # =============================================================================
-log_info "[5/6] Building application..."
+log_info "[5/8] Building frontend..."
 
 # Clean previous build
 if [ -d "$PROJECT_PATH/dist" ]; then
     rm -rf "$PROJECT_PATH/dist"
-    log_info "Previous build cleaned"
+    log_info "Previous frontend build cleaned"
 fi
 
 # Build with production optimizations
@@ -171,7 +186,7 @@ BUILD_START=$(date +%s)
 if npm run build 2>&1 | tee -a "$LOG_FILE"; then
     BUILD_END=$(date +%s)
     BUILD_TIME=$((BUILD_END - BUILD_START))
-    log_success "Build completed in ${BUILD_TIME} seconds"
+    log_success "Frontend build completed in ${BUILD_TIME} seconds"
 
     # Verify build output
     if [ ! -d "$PROJECT_PATH/dist" ] || [ -z "$(ls -A $PROJECT_PATH/dist)" ]; then
@@ -189,9 +204,9 @@ if npm run build 2>&1 | tee -a "$LOG_FILE"; then
 
     # Show build size
     BUILD_SIZE=$(du -sh "$PROJECT_PATH/dist" | cut -f1)
-    log_info "Build size: $BUILD_SIZE"
+    log_info "Frontend build size: $BUILD_SIZE"
 else
-    log_error "Build failed!"
+    log_error "Frontend build failed!"
     log_error "Rolling back..."
 
     # Restore from backup
@@ -204,9 +219,66 @@ else
 fi
 
 # =============================================================================
-# STEP 6: RESTART NGINX
+# STEP 6: BUILD BACKEND
 # =============================================================================
-log_info "[6/6] Starting/Reloading Nginx..."
+log_info "[6/8] Building backend..."
+
+if [ -d "$PROJECT_PATH/server" ]; then
+    cd "$PROJECT_PATH/server"
+
+    # Install dependencies if node_modules doesn't exist
+    if [ ! -d "node_modules" ]; then
+        log_warning "Backend node_modules not found, installing..."
+        npm install 2>&1 | tee -a "$LOG_FILE"
+    fi
+
+    # Build TypeScript
+    log_info "Running: npm run build (backend)"
+    if npm run build 2>&1 | tee -a "$LOG_FILE"; then
+        log_success "Backend build completed"
+    else
+        log_error "Backend build failed!"
+        exit 1
+    fi
+
+    cd "$PROJECT_PATH"
+else
+    log_warning "No server directory found, skipping backend build"
+fi
+
+# =============================================================================
+# STEP 7: RESTART PM2 (Backend API)
+# =============================================================================
+log_info "[7/8] Restarting PM2 backend..."
+
+if command -v pm2 &> /dev/null; then
+    if pm2 list | grep -q "biene-api"; then
+        pm2 restart biene-api 2>&1 | tee -a "$LOG_FILE"
+        log_success "PM2 biene-api restarted"
+    else
+        # Start if not running
+        if [ -f "$PROJECT_PATH/server/dist/server.js" ]; then
+            cd "$PROJECT_PATH/server"
+            pm2 start dist/server.js --name "biene-api" --cwd "$PROJECT_PATH/server" 2>&1 | tee -a "$LOG_FILE"
+            pm2 save 2>&1 | tee -a "$LOG_FILE"
+            cd "$PROJECT_PATH"
+            log_success "PM2 biene-api started"
+        else
+            log_warning "Backend server.js not found, skipping PM2"
+        fi
+    fi
+
+    # Show PM2 status
+    log_info "PM2 Status:"
+    pm2 list
+else
+    log_warning "PM2 not installed, skipping backend restart"
+fi
+
+# =============================================================================
+# STEP 8: RESTART NGINX
+# =============================================================================
+log_info "[8/8] Starting/Reloading Nginx..."
 
 # Test Nginx configuration first
 if sudo nginx -t 2>&1 | tee -a "$LOG_FILE"; then
