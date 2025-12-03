@@ -6,7 +6,7 @@ import { WhatsAppIcon } from './WhatsAppIcon';
 import { Button } from './Button';
 import { motion } from 'framer-motion';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 export const Contact: React.FC = () => {
   const [formState, setFormState] = useState({ name: '', email: '', phone: '', message: '', website: '' });
