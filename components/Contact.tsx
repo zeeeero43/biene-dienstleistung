@@ -6,7 +6,8 @@ import { WhatsAppIcon } from './WhatsAppIcon';
 import { Button } from './Button';
 import { motion } from 'framer-motion';
 
-const API_URL = import.meta.env.VITE_API_URL || '';
+// API URL - leer für relative URLs (Production mit Nginx Proxy)
+const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
 
 export const Contact: React.FC = () => {
   const [formState, setFormState] = useState({ name: '', email: '', phone: '', message: '', website: '' });
