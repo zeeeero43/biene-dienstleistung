@@ -21,13 +21,10 @@ export default defineConfig(({ mode }) => {
         }
       },
       build: {
-        // PageSpeed Optimierungen
-        minify: 'terser',
-        terserOptions: {
-          compress: {
-            drop_console: true, // Remove console.logs in production
-            drop_debugger: true,
-          },
+        // PageSpeed Optimierungen - esbuild ist schneller als terser
+        minify: 'esbuild',
+        esbuild: {
+          drop: ['console', 'debugger'], // Remove console.logs in production
         },
         rollupOptions: {
           output: {
